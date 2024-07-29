@@ -9,6 +9,7 @@ import sys
 SWIFT_PATH = "swift"
 DEMANGLING_PATH = "lib/Demangling"
 WORKSPACE_INCLUDES = [
+    'indexstore-db/include',
     'llvm-project/llvm/include',
     'build/Ninja-DebugAssert/llvm-macosx-x86_64/include',
     'build/Ninja-DebugAssert/swift-macosx-x86_64/include',
@@ -24,6 +25,7 @@ def print_usage():
 
 
 def get_headers(source_file, demangler_target, workspace_dir):
+    print(workspace_dir)
     if not source_file.endswith(".cpp"):
         return []
 
@@ -37,6 +39,7 @@ def get_headers(source_file, demangler_target, workspace_dir):
     ]
 
     result = subprocess.run(args, capture_output=True)
+    print(args)
     lines = result.stderr.splitlines()
     if result.returncode != 0:
         print("ERROR while resolving headers for %s" % source_file)
@@ -89,6 +92,7 @@ def main():
         exit()
 
     workspace_dir = os.path.realpath(sys.argv[1])
+    print("workspace_dir: {}".format(workspace_dir))
     swift_dir = os.path.join(workspace_dir, SWIFT_PATH)
     if not os.path.isdir(swift_dir):
         print("ERROR: No swift workspace found at %s" % (workspace_dir,))
@@ -110,7 +114,10 @@ def main():
     print("> Replacing sources in %s" % (DEMANGLING_PATH))
     demangler_source = os.path.join(swift_dir, DEMANGLING_PATH)
     demangler_target = os.path.join(vendor_dir, DEMANGLING_PATH)
-    shutil.copytree(demangler_source, demangler_target)
+    try:
+        shutil.copytree(demangler_source, demangler_target)
+    except:
+        pass
 
     print("> Resolving required headers")
     required_headers = set()
@@ -121,7 +128,6 @@ def main():
     for header in required_headers:
         copy_header(header, vendor_dir, workspace_dir)
 
-    print()
     print("Done. Please run `git status` to check for added or removed sources.")
 
 

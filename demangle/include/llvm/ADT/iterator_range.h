@@ -18,6 +18,9 @@
 #ifndef LLVM_ADT_ITERATOR_RANGE_H
 #define LLVM_ADT_ITERATOR_RANGE_H
 
+#include "llvm/Config/indexstoredb-prefix.h"
+
+#include <iterator>
 #include <utility>
 
 namespace llvm {
@@ -43,7 +46,6 @@ public:
 
   IteratorT begin() const { return begin_iterator; }
   IteratorT end() const { return end_iterator; }
-  bool empty() const { return begin_iterator == end_iterator; }
 };
 
 /// Convenience function for iterating over sub-ranges.
@@ -58,6 +60,11 @@ template <typename T> iterator_range<T> make_range(std::pair<T, T> p) {
   return iterator_range<T>(std::move(p.first), std::move(p.second));
 }
 
+template <typename T>
+iterator_range<decltype(adl_begin(std::declval<T>()))> drop_begin(T &&t,
+                                                                  int n) {
+  return make_range(std::next(adl_begin(t), n), adl_end(t));
+}
 }
 
 #endif

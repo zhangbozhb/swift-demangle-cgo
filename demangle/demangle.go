@@ -3,9 +3,9 @@ package demangle
 //go:generate stringer -type=returnCode -output return_string.go
 
 /*
-#cgo CFLAGS: -I${SRCDIR}/include
-#cgo CPPFLAGS: -I/opt/homebrew/Cellar/zig/0.9.1_1/lib/zig/libcxx/include
-#cgo LDFLAGS: -L${SRCDIR}/lib
+#cgo CFLAGS: -I${SRCDIR}/include -I${SRCDIR}/demangle/include
+#cgo CPPFLAGS: -I/opt/homebrew/Cellar/zig/0.11.0/lib/zig/libcxx/include -I${SRCDIR}/include -I${SRCDIR}/demangle/include
+#cgo LDFLAGS: -L${SRCDIR}/lib -L${SRCDIR}/demangle/lib
 
 #include <stdlib.h>
 

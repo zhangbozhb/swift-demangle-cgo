@@ -14,11 +14,16 @@
 #ifndef LLVM_CONFIG_H
 #define LLVM_CONFIG_H
 
+#include "llvm/Config/indexstoredb-prefix.h"
+
 /* Define if LLVM_ENABLE_DUMP is enabled */
 /* #undef LLVM_ENABLE_DUMP */
 
+/* Define if we link Polly to the tools */
+/* #undef LINK_POLLY_INTO_TOOLS */
+
 /* Target triple LLVM will generate code for by default */
-#define LLVM_DEFAULT_TARGET_TRIPLE "x86_64-apple-macosx10.9"
+#define LLVM_DEFAULT_TARGET_TRIPLE ""
 
 /* Define if threads enabled */
 #define LLVM_ENABLE_THREADS 1
@@ -27,7 +32,7 @@
 #define LLVM_HAS_ATOMICS 1
 
 /* Host triple LLVM will be executed on */
-#define LLVM_HOST_TRIPLE "x86_64-apple-macosx10.9"
+#define LLVM_HOST_TRIPLE ""
 
 /* LLVM architecture name for the native architecture, if available */
 #define LLVM_NATIVE_ARCH X86
@@ -50,8 +55,12 @@
 /* LLVM name for the native target MC init function, if available */
 #define LLVM_NATIVE_TARGETMC LLVMInitializeX86TargetMC
 
+#if defined(_WIN32)
+#define LLVM_ON_WIN32 1
+#else
 /* Define if this is Unixish platform */
 #define LLVM_ON_UNIX 1
+#endif
 
 /* Define if we have the Intel JIT API runtime support library */
 #define LLVM_USE_INTEL_JITEVENTS 0
@@ -63,7 +72,7 @@
 #define LLVM_USE_PERF 0
 
 /* Major version of the LLVM API */
-#define LLVM_VERSION_MAJOR 10
+#define LLVM_VERSION_MAJOR 9
 
 /* Minor version of the LLVM API */
 #define LLVM_VERSION_MINOR 0
@@ -72,29 +81,11 @@
 #define LLVM_VERSION_PATCH 0
 
 /* LLVM version string */
-#define LLVM_VERSION_STRING "10.0.0git"
+#define LLVM_VERSION_STRING "9.0.0svn"
 
 /* Whether LLVM records statistics for use with GetStatistics(),
  * PrintStatistics() or PrintStatisticsJSON()
  */
 #define LLVM_FORCE_ENABLE_STATS 0
-
-/* Define if we have z3 and want to build it */
-/* #undef LLVM_WITH_Z3 */
-
-/* Define if LLVM was built with a dependency to the libtensorflow dynamic library */
-/* #undef LLVM_HAVE_TF_API */
-
-/* Define if LLVM was built with a dependency to the tensorflow compiler */
-/* #undef LLVM_HAVE_TF_AOT */
-
-/* Define to 1 if you have the <sysexits.h> header file. */
-#define HAVE_SYSEXITS_H 1
-
-/* Define to 1 to enable the experimental new pass manager by default */
-#define LLVM_ENABLE_NEW_PASS_MANAGER 1
-
-/* Define if the xar_open() function is supported on this platform. */
-#define LLVM_HAVE_LIBXAR 1
 
 #endif

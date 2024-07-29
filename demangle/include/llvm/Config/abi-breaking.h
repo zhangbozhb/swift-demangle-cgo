@@ -12,15 +12,17 @@
 #ifndef LLVM_ABI_BREAKING_CHECKS_H
 #define LLVM_ABI_BREAKING_CHECKS_H
 
+#include "llvm/Config/indexstoredb-prefix.h"
+
 /* Define to enable checks that alter the LLVM C++ ABI */
-#define LLVM_ENABLE_ABI_BREAKING_CHECKS 1
+#define LLVM_ENABLE_ABI_BREAKING_CHECKS 0
 
 /* Define to enable reverse iteration of unordered llvm containers */
 #define LLVM_ENABLE_REVERSE_ITERATION 0
 
 /* Allow selectively disabling link-time mismatch checking so that header-only
    ADT content from LLVM can be used without linking libSupport. */
-#if !defined(LLVM_DISABLE_ABI_BREAKING_CHECKS_ENFORCING) || !LLVM_DISABLE_ABI_BREAKING_CHECKS_ENFORCING
+#if !LLVM_DISABLE_ABI_BREAKING_CHECKS_ENFORCING
 
 // ABI_BREAKING_CHECKS protection: provides link-time failure when clients build
 // mismatch with LLVM
